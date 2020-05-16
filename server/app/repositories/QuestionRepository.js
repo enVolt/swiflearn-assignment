@@ -2,6 +2,7 @@
 
 const { Question, StudentQuestion } = require("../models");
 const { QUESTION_STATUS } = require("../constants");
+const BaseRepository = require("./BaseRepository");
 
 class QuestionRepository extends BaseRepository {
     constructor () {

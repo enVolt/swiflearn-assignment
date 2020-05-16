@@ -1,6 +1,7 @@
 "use strict";
 
 const { Lecture, StudentLecture } = require("../models");
+const BaseRepository = require("./BaseRepository");
 
 class LectureRepository extends BaseRepository {
     constructor() {

@@ -18,7 +18,7 @@ router.post(
 router.get(
     "/assigned",
     auth.authenticate(auth.USER_TYPE.STUDENT),
-    QuestionController.getAssigned
+    QuestionController.assigned
 );
 
 router.put(

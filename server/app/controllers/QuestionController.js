@@ -20,7 +20,7 @@ module.exports.assigned = async (req, res, next) => {
     }
 };
 
-module.exports.asssign = async (req, res, next) => {
+module.exports.assign = async (req, res, next) => {
     try {
         res.body = await QuestionService.assign(req.query.studentId, req.query.questionId);
         next();
