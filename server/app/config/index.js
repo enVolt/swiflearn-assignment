@@ -3,6 +3,7 @@ require("dotenv").load();
 module.exports = {
     db: process.env.DB_CONNECTION_STRING,
     password: {
-        salt: process.env.ENCRYPTION_SALT
+        salt: process.env.ENCRYPTION_SALT,
+        jwtSecret: process.env.JWT_SECRET
     }
 };

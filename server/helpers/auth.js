@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const uuidv4 = require("uuid/v4");
 const bcrypt = require("bcrypt");
 
-const secret = require("../app/config").auth.jwtSecret;
+const { jwtSecret, salt} = require("../app/config").password;
 const { Session } = require("../app/models");
 const { SESSION_STATUS } = require("../app/constants");
 const EError = require("./EError");
@@ -22,7 +22,7 @@ module.exports.persistStudentLogin = async (student) => {
     const token = jwt.sign({
         sessionId,
         userType
-    }, secret, {
+    }, jwtSecret, {
         audience: userType
     });
 
@@ -35,12 +35,12 @@ module.exports.persistStudentLogin = async (student) => {
 };
 
 module.exports.securePassword = async (password) => {
-    return await bcrypt.hash(password, SALT_ROUND);
+    return await bcrypt.hash(`${password}--${salt}`, SALT_ROUND);
 };
 
 module.exports.validatePassword = async (password, hash) => {
-    return await bcrypt.compare(password, hash);
-}
+    return await bcrypt.compare(`${password}--${salt}`, hash);
+};
 
 module.exports.authenticate = (audience) => {
     return async (req, res, next) => {
@@ -64,7 +64,7 @@ module.exports.authenticate = (audience) => {
         }
         let payload = null;
         try {
-            payload = jwt.verify(req.headers['x-authorization'], secret);
+            payload = jwt.verify(req.headers['x-authorization'], jwtSecret);
 
             const session = await Session.findOne({
                 token: req.headers['x-authorization']
