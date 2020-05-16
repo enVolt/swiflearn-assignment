@@ -10,10 +10,6 @@ module.exports = (app) => {
             statusCode = res.statusCode;
         }
         res.status(statusCode);
-        if (req.t) {
-            req.t.commit();
-            req.t = null;
-        }
         res.json({result: res.body, error: null, status: res.statusCode || 200});
     });
 };

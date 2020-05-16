@@ -9,40 +9,33 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    return queryInterface.createTable('classes', {
+    return queryInterface.createTable('studentLectures', {
       id: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT
       },
-      description: {
-          allowNull: true,
-          type: Sequelize.STRING
+      isAttended: {
+        allowNull: false,
+        defaultValue: false,
+        type: Sequelize.BOOLEAN
       },
-      start: {
-          allowNull: false,
-          type: Sequelize.DATE
-      },
-      end: {
-          allowNull: false,
-          type: Sequelize.DATE
-      },
-      subjectId: {
+      studentId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: "subjects"
+            tableName: "students"
           },
           key: "id"
         }
       },
-      teacherId: {
+      lectureId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: "teachers"
+            tableName: "lectures"
           },
           key: "id"
         }
@@ -66,6 +59,7 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.dropTable('classes');
+    return queryInterface.dropTable('studentLectures');
+
   }
 };

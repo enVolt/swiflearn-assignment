@@ -4,8 +4,10 @@ let bunyan = require("bunyan");
 let requestLogger = require("express-bunyan-logger");
 let uuidv4 = require("uuid/v4");
 
+const packageName = require("../package.json").name;
+
 let config = {
-    name: "masmic-postbox",
+    name: packageName,
     genReqId: (req) => {
         return req.headers["x-request-id"] || uuidv4();
     },

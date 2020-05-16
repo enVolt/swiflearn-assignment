@@ -1,11 +1,4 @@
 module.exports = {
-    CACHE_KEY_SEPARATOR: "::",
-    DEFAULT_NAMESPACE: "SWIF",
-    DEFAULT_PAGE_SIZE: 20,
-    DEFAULT_RETRY_ATTEMPT: 3,
-    DEFAULT_CONCURRENCY: 3,
-    CACHE_KEYS: {
-    },
     GRADE: {
         A: "A",
         B: "B",
@@ -22,6 +15,10 @@ module.exports = {
         INACTIVE: "INACTIVE"
     },
     QUESTION_STATUS: {
+        ACTIVE: "ACTIVE",
+        INACTIVE: "INACTIVE"
+    },
+    SESSION_STATUS: {
         ACTIVE: "ACTIVE",
         INACTIVE: "INACTIVE"
     }

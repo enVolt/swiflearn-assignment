@@ -1,17 +1,19 @@
 "use strict";
 
-let bunyan = require("bunyan");
-let uuidv4 = require("uuid/v4");
+const bunyan = require("bunyan");
+const uuidv4 = require("uuid/v4");
 
-let config = {
-    name: "masmic-postbox",
+const packageName = require("../package.json").name;
+
+const config = {
+    name: packageName,
     genReqId: (req) => {
         return req.headers["x-request-id"] || uuidv4();
     },
     parseUA: false
 };
 
-let logger = bunyan.createLogger({
+const logger = bunyan.createLogger({
     name: config.name
 });
 

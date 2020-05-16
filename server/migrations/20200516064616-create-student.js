@@ -30,6 +30,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM(Object.values(EXAM_BOARD))
       },
+      password: {
+          allowNull: false,
+          type: Sequelize.STRING
+      },
       mobile: {
         allowNull: false,
         type: Sequelize.STRING

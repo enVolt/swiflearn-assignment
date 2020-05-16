@@ -2,38 +2,57 @@
 
 const jwt = require("jsonwebtoken");
 const uuidv4 = require("uuid/v4");
+const bcrypt = require("bcrypt");
 
 const secret = require("../app/config").auth.jwtSecret;
-const expiry = require("../app/config").auth.expiry;
-
-const cache = require("../app/cache");
-
-const { CACHE_NAMESPACES } = require("../app/constants");
-
+const { Session } = require("../app/models");
+const { SESSION_STATUS } = require("../app/constants");
 const EError = require("./EError");
+
+const SALT_ROUND = 10;
 
 /**
  * @param {String} sessionId
  * @param {User} user
  */
-module.exports.persistUserLogin = (req, res, user) => {
+module.exports.persistStudentLogin = async (student) => {
     const sessionId = uuidv4();
+    const userType = this.USER_TYPE.STUDENT;
 
     const token = jwt.sign({
         sessionId,
-        exp: parseInt(Date.now() / 1000) + expiry
-    }, secret);
+        userType
+    }, secret, {
+        audience: userType
+    });
 
-    return cache.set({namespace: "SESSION", key: sessionId}, user)
-        .then(() => token);
+    await Session.create({
+        uuid: sessionId,
+        token,
+        student
+    });
+    return token;
 };
 
-module.exports.updateAuthenticationToken = (req, res, updatedUser) => {
-    return cache.set({namespace: "SESSION", key: req.sessionId}, updatedUser);
+module.exports.securePassword = async (password) => {
+    return await bcrypt.hash(password, SALT_ROUND);
 };
 
-module.exports.authenticate = (type = null) => {
-    return (req, res, next) => {
+module.exports.validatePassword = async (password, hash) => {
+    return await bcrypt.compare(password, hash);
+}
+
+module.exports.authenticate = (audience) => {
+    return async (req, res, next) => {
+        if (audience === this.USER_TYPE.ADMIN) {
+            // TODO: Implement authetication strategy for Admin
+            return next();
+        }
+
+        if (audience != this.USER_TYPE.STUDENT) {
+            throw new Error("invalid type of user");
+        }
+        
         /**
          * 1. Validate Cookie Session Id
          * 2. Validate JWT Token
@@ -41,22 +60,33 @@ module.exports.authenticate = (type = null) => {
          * 4. Get cached User Data from Redis for Session Id and compare with JWT Token's User Id
          */
         if (!req.headers['x-authorization']) {
-            return next(new EError("No Auth token found", 401));
+            return next(new EError("Session info not found. Please login.", 401));
         }
         let payload = null;
         try {
-            payload = jwt.verify(req.headers['x-authorization'], secret, {audience: type || undefined});
+            payload = jwt.verify(req.headers['x-authorization'], secret);
+
+            const session = await Session.findOne({
+                token: req.headers['x-authorization']
+            });
+
+            if (!session) {
+                return next(new EError("Session is invalid. Please re-login.", 401));
+            }
+            if (session.status != SESSION_STATUS.ACTIVE) {
+                return next(new EError("Session is not valid. Please re-login."))
+            }
+            req.student = session.student;
+            next();
+
         } catch (err) {
             return next(err);
         }
 
-        return cache.get({namespace: CACHE_NAMESPACES.SESSION, key: payload.sessionId})
-            .then((result) => {
-                if (!result) return next(new EError("Invalid Token", 401));
-                req.user = result;
-                req.sessionId = payload.sessionId;
-                return next();
-            })
-            .catch(next);
     };
+};
+
+module.exports.USER_TYPE = {
+    STUDENT: "student",
+    ADMIN: "admin"
 };

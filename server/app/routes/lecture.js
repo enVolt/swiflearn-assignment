@@ -6,25 +6,25 @@ const router = express.Router();
 const { validateRequest } = require("../../helpers/validator");
 const auth = require("../../helpers/auth");
 
-const QuestionController = require("../controllers/QuestionController");
+const LectureController = require("../controllers/LectureController");
 
 router.post(
     "/",
     auth.authenticate(auth.USER_TYPE.ADMIN),
-    validateRequest("questionCreate"),
-    QuestionController.create
+    validateRequest("lectureCreate"),
+    LectureController.create
 );
 
 router.get(
     "/assigned",
-    auth.authenticate(auth.USER_TYPE.STUDENT),
-    QuestionController.getAssigned
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    LectureController.assigned
 );
 
-router.put(
+router.get(
     "/assign",
-    auth.authenticate(auth.USER_TYPE.ADMIN),
-    QuestionController.assign
-)
+    auth.authenticate(auth.USER_TYPE.STUDENT),
+    LectureController.assign
+);
 
 module.exports = router;

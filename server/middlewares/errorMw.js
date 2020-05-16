@@ -1,19 +1,13 @@
 "use strict";
 
-const bugsnag = require("../helpers/bugsnag");
 const EError = require("../helpers/EError");
 
 module.exports = (app) => {
 
     app.use(function (err, req, res, next) {
-        bugsnag.customRequestNotify(err, req);
 
         if (req.log) {
             req.log.error(err);
-        }
-        if (req.t) {
-            req.t.rollback();
-            req.t = null;
         }
         if (err instanceof EError) {
             return res.status(err.statusCode).json({

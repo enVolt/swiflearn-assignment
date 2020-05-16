@@ -1,5 +1,7 @@
 'use strict';
 
+const { SESSION_STATUS } = require("../app/constants");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -9,20 +11,28 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    return queryInterface.createTable('studentQuestions', {
+    return queryInterface.createTable('sessions', {
       id: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT
       },
-      isAnswered: {
+      sessionId: {
         allowNull: false,
-        defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
-      answer: {
-        allowNull: true,
-        type: Sequelize.TEXT
+      token: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      expiry: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      status: {
+        allowNull: false,
+        defaultValue: SESSION_STATUS.ACTIVE,
+        type: Sequelize.ENUM(Object.values(SESSION_STATUS))
       },
       studentId: {
         allowNull: false,
@@ -30,16 +40,6 @@ module.exports = {
         references: {
           model: {
             tableName: "students"
-          },
-          key: "id"
-        }
-      },
-      questionId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: "questions"
           },
           key: "id"
         }
@@ -63,6 +63,7 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.dropTable('studentQuestions');
+    return queryInterface.dropTable('sessions');
+
   }
 };
