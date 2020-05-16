@@ -24,6 +24,7 @@ router.get(
 router.put(
     "/assign",
     auth.authenticate(auth.USER_TYPE.ADMIN),
+    validateRequest("questionAssign"),
     QuestionController.assign
 )
 

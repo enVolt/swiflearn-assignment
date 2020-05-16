@@ -3,44 +3,53 @@
 const EError = require("./EError");
 const Joi = require("joi");
 
-// const userNameRegex = /^[a-zA-Z -_.]*$/;
-
-const emailEventSchema = {
-    receiverEmail: Joi.string().required(),
-    receiverEmailList: Joi.array().items(Joi.string().email()).allow(null),
-    emailData: Joi.object().required(),
-    emailType: Joi.string().required(),
-    fromName: Joi.string().required(),
-    ccEmailList: Joi.array().items(Joi.string().email()).allow(null),
-    bccEmailList: Joi.array().items(Joi.string().email()).allow(null),
-    additionalReplyEmailList: Joi.array().items(Joi.string().email()).allow(null)
-};
+const { GRADE, EXAM_BOARD } = require("../app/constants");
 
 const schemas = {
-    IdParamRequest: {
-        params: Joi.object().keys({
-            id: Joi.number().required()
+    studentRegister: {
+        body: Joi.object().keys({
+            email: Joi.string().email().required(),
+            name: Joi.string().required(),
+            dateOfBirth: Joi.date().required().max('now'),
+            grade: Joi.string().valid(Object.values(GRADE)).required(),
+            board: Joi.string().valid(Object.values(EXAM_BOARD)),
+            password: Joi.string().required(),
+            mobile: Joi.string().required()
         })
     },
-    emailEventSchema: emailEventSchema,
-    emailRenderRequest: {
-        body: {
-            emailData: Joi.object().required(),
-            emailType: Joi.string().required()
-        }
+    studentLogin: {
+        body: Joi.object().keys({
+            email: Joi.string().email().required(),
+            password: Joi.string().required()
+        })
     },
-    createCampaignRequest: {
-        body: {
-            campaignId: Joi.string().required(),
-            userId: Joi.number().allow(null),
-            totalRecipients: Joi.number().required()
-        }
+    questionCreate: {
+        body: Joi.object().keys({
+            question: Joi.string().required(),
+            description: Joi.string().required(),
+            subjectId: Joi.number().required()
+        })
     },
-    createCampaignGroupRequest: {
-        body: {
-            identifier: Joi.string().required(),
-            type: Joi.string().required()
-        }
+    questionAssign: {
+        query: Joi.object().keys({
+            questionId: Joi.number().positive().required(),
+            studentId: Joi.number().positive().required()
+        })
+    },
+    lectureCreate: {
+        body: Joi.object().keys({
+            description: Joi.string().required(),
+            start: Joi.date().min('now').required(),
+            end: Joi.date().min('now').required(),
+            subjectId: Joi.number().required(),
+            teacherId: Joi.number().required()
+        })
+    },
+    lectureAssign: {
+        query: Joi.object().keys({
+            lectureId: Joi.number().positive().required(),
+            studentId: Joi.number().positive().required()
+        })
     }
 };
 

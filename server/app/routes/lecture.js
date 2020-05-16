@@ -24,6 +24,7 @@ router.get(
 router.get(
     "/assign",
     auth.authenticate(auth.USER_TYPE.STUDENT),
+    validateRequest("lectureAssign"),
     LectureController.assign
 );
 
