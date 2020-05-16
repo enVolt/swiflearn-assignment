@@ -22,4 +22,29 @@ Start Backend Server (default to 3030 port)
 npm start
 ```
 
+## What functionality does it have?
+
+* Basic Student Signup/Login flow
+* Ability to create
+  * Questions
+  * Lectures
+* Ability to assign (to Students)
+  * Questions
+  * Lectures
+* Ability to fetch (for User)
+  * Unanswered Questions
+  * Assigned Lectures
+
+## Developer Guide
+
+* Use `sequelize-cli` for migrations
+* All the models are currently in `./app/models/index.js`
+* Use `bunyan` to watch logs in human readable format ([Bunyan](https://github.com/trentm/node-bunyan#cli-usage)).
+
+
+## TODO
+
+* models cleanup
+* Admin auth implementation is yet to be done.
+* Subject has to be created manually.
 
