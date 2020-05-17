@@ -26,4 +26,10 @@ router.get(
     StudentController.me
 );
 
+router.get(
+    "/all",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    StudentController.all
+);
+
 module.exports = router;

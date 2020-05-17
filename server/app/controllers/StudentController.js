@@ -31,3 +31,12 @@ module.exports.me = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.all = async (req, res, next) => {
+    try {
+        res.body = await StudentService.all()
+        next()
+    } catch (e) {
+        next(e);
+    }
+};

@@ -10,17 +10,37 @@ class LectureRepository extends BaseRepository {
 
     async assignLecture (lecture, student) {
         return await StudentLecture.create({
-            question,
-            lecture
+            studentId: student.id,
+            lectureId: lecture.id
+        });
+    }
+
+    async unassignLecture (lecture, student) {
+        return await StudentLecture.destroy({
+            where: {
+                studentId: student.id,
+                lectureId: lecture.id
+            }
         });
     }
 
     async assignedLectures (student) {
         return await StudentLecture.findAll({
-            student,
-            isAnswered: false,
-            include: [ Lecture ],
-            order: "lecture.start"
+            where: {
+                studentId: student.id
+            },
+            include: [ {
+                model: Lecture,
+                include: [ Subject, Teacher ]
+            } ]
+        });
+    }
+    
+    async getStudents (lecture) {
+        return await StudentLecture.findAll({
+            where: {
+                lectureId: lecture.id
+            }
         });
     }
 

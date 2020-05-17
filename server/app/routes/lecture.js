@@ -14,6 +14,12 @@ router.get(
     LectureController.get
 );
 
+router.get(
+    "/:id/students",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    LectureController.getStudents
+);
+
 router.post(
     "/",
     auth.authenticate(auth.USER_TYPE.ADMIN),
@@ -23,15 +29,22 @@ router.post(
 
 router.get(
     "/assigned",
-    auth.authenticate(auth.USER_TYPE.ADMIN),
+    auth.authenticate(auth.USER_TYPE.STUDENT),
     LectureController.assigned
 );
 
-router.get(
+router.put(
     "/assign",
-    auth.authenticate(auth.USER_TYPE.STUDENT),
+    auth.authenticate(auth.USER_TYPE.ADMIN),
     validateRequest("lectureAssign"),
     LectureController.assign
+);
+
+router.put(
+    "/unassign",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    validateRequest("lectureAssign"),
+    LectureController.unassign
 );
 
 module.exports = router;

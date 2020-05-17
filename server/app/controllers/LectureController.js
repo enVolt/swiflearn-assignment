@@ -20,6 +20,15 @@ module.exports.get = async (req, res, next) => {
     }
 };
 
+module.exports.getStudents = async (req, res, next) => {
+    try {
+        res.body = await LectureService.getStudents(req.params.id)
+        next()
+    } catch (e) {
+        next(e);
+    }
+};
+
 module.exports.assigned = async (req, res, next) => {
     try {
         res.body = await LectureService.assigned(req.student)
@@ -32,6 +41,15 @@ module.exports.assigned = async (req, res, next) => {
 module.exports.assign = async (req, res, next) => {
     try {
         res.body = await LectureService.assign(req.query.studentId, req.query.lectureId);
+        next();
+    } catch (e) {
+        next(e);
+    }
+};
+
+module.exports.unassign = async (req, res, next) => {
+    try {
+        res.body = await LectureService.unassign(req.query.studentId, req.query.lectureId);
         next();
     } catch (e) {
         next(e);

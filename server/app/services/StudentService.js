@@ -44,3 +44,7 @@ module.exports.login = async (loginRequest) => {
         email: student.email
     };
 };
+
+module.exports.all = async () => {
+    return await studentRepository.find();
+};
