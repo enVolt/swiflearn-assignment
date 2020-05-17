@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
+import { getMe } from './../../actions/auth';
+
 import './App.scss';
 import { Menu, Breadcrumb, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
@@ -29,6 +31,8 @@ class App extends Component {
     if (!isAuthenticated) {
       console.log("Not authenticated, redirecting to login");
       return this.props.history.push("/login");
+    } else {
+      this.props.dispatch(getMe())
     }
   }
 
