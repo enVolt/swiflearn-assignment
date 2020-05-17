@@ -107,8 +107,8 @@ function cFetch(url, options) {
   const opts = Object.assign({}, defaultOptions, {...options});
 
   // add query params to url when method is GET
-  if (opts && opts.method == "GET" && opts['params']) {
-    mergeUrl = mergeUrl + '?' + toQueryString(opts['params']);
+  if (opts && opts['query']) {
+    mergeUrl = mergeUrl + '?' + toQueryString(opts['query']);
   }
 
   opts.headers = {

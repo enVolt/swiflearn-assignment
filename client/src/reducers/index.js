@@ -4,6 +4,11 @@ import { routerReducer } from 'react-router-redux';
 import auth from './auth';
 import user from './user';
 import me from './me';
+import lecturesCreate from './lecturesCreate';
+import lecturesGet from './lecturesGet';
+import lectureStudent from './lectureStudent';
+import students from './students';
+import upcomingLectures from './upcomingLectures';
 
 import reducersGenerate from './reducersGenerate';
 
@@ -19,7 +24,11 @@ const rootReducer = combineReducers({
   auth,
   users,
   user,
-  me
+  me,
+  lecturesGet, lecturesCreate, lectureStudent,
+  students,
+  upcomingLectures
+  
 });
 
 export default rootReducer;

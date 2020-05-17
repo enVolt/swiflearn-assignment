@@ -15,8 +15,8 @@ export default reducersGenerate(LOGIN, initialState.auth, {
     return Object.assign({}, state, {
       isFetching: false,
       isAuthenticated: true,
-      name: action.payload.name,
-      email: action.payload.email
+      name: action.payload.result.name,
+      email: action.payload.result.email
     });
   },
   'LOGIN_REJECTED': (state, action) => {

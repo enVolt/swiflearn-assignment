@@ -41,36 +41,29 @@ class App extends Component {
       <div className="ant-layout-aside">
         <aside className="ant-layout-sider">
           <div className="ant-layout-logo"/>
-          <Menu mode="inline" theme="dark"
-            defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
-            <SubMenu key="sub1" title={<span><Icon type="user" />User Management</span>}>
+          <Menu mode="inline" theme="dark" defaultOpenKeys={['sub1']}>
+            <SubMenu key="sub1" title={<span><Icon type="study" />Lectures</span>}>
               <Menu.Item key="1">
-                <Link to={'/users'}>
-                  User
+                <Link to={'/lectures'}>
+                  Upcoming
                 </Link>
               </Menu.Item>
-              <Menu.Item key="2">Role Configuration</Menu.Item>
+              <Menu.Item key="2">
+                <Link to={'/lectures/manage'}>
+                  Manage (Admin)
+                </Link>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </aside>
         <div className="ant-layout-main">
           <div className="ant-layout-header" />
-          <div className="ant-layout-breadcrumb">
-            <Breadcrumb>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>User Management</Breadcrumb.Item>
-              <Breadcrumb.Item>User List</Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
           <div className="ant-layout-container">
             <div className="ant-layout-content">
               <div style={{ height: 590 }}>
                 {this.props.children}
               </div>
             </div>
-          </div>
-          <div className="ant-layout-footer">
-          Ant Design 版权所有 © 2015 由蚂蚁金服体验技术部支持
           </div>
         </div>
       </div>

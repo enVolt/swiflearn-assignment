@@ -17,5 +17,9 @@ export default {
       page: 1
     },
     data: []
+  },
+  lectures: {
+    isFetching: false,
+    list: []
   }
 };
