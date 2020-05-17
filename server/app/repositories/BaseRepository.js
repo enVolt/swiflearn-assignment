@@ -15,7 +15,7 @@ class BaseRepository {
     }
 
     async findOne (condition) {
-        const result = this.__model.findOne({ where: condition, rejectOnEmpty: true });
+        const result = await this.__model.findOne({ where: condition });
         if (!result) {
             throw new EError(`${this.__model.name} not found`, 404);
         }

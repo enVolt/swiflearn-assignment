@@ -13,7 +13,7 @@ router.post(
     StudentController.register
 );
 
-router.get(
+router.post(
     "/login",
     validateRequest("studentLogin"),
     StudentController.login
