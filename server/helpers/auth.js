@@ -26,10 +26,11 @@ module.exports.persistStudentLogin = async (student) => {
         audience: userType
     });
 
-    await Session.create({
-        uuid: sessionId,
+    await student.createSession({
+        sessionId,
         token,
-        student
+        student,
+        expiry: new Date(Date.now() + 1 * 30 * 24 * 60 * 60 * 1000)
     });
     return token;
 };

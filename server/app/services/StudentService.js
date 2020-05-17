@@ -1,16 +1,16 @@
 "use strict";
 
-const StudentRepository = require("../repositories/StudentRepository");
+const studentRepository = require("../repositories/StudentRepository");
 const authHelper = require("../../helpers/auth");
 const EError = require("../../helpers/EError");
 
 const validateExistingRegistration = async (student) => {
-    const mobileStudentExist = await StudentRepository.doesExist({mobile: student.mobile});
+    const mobileStudentExist = await studentRepository.doesExist({mobile: student.mobile});
     if (mobileStudentExist) {
         throw new EError("This mobile number is already registered", 400);
     }
 
-    const emailStudentExist = await StudentRepository.findOne({email: student.email}, false);
+    const emailStudentExist = await studentRepository.doesExist({email: student.email}, false);
     if (emailStudentExist) {
         throw new EError("This email is already registered", 400);
     }
@@ -29,13 +29,15 @@ module.exports.register = async (student) => {
 };
 
 module.exports.login = async (loginRequest) => {
-    const student = await StudentRepository.findOne({email: loginRequest.email});
+    const student = await studentRepository.findOne({email: loginRequest.email});
 
-    if (!await authHelper.validatePassword(loginRequest.password, student.password)) {
+    const isValidPassowrd = await authHelper.validatePassword(loginRequest.password, student.password);
+
+    if (!isValidPassowrd) {
         throw new EError("Invalid Password", 401);
     }
 
-    const token = await authHelper.persistStudentLogin(loginRequest);
+    const token = await authHelper.persistStudentLogin(student);
     return {
         token,
         name: student.name,

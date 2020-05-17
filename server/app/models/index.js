@@ -177,6 +177,8 @@ const Session = sequelize.define("session", {
 });
 Session.belongsTo(Student);
 
+Student.hasMany(Session);
+
 module.exports.Student = Student;
 module.exports.Subject = Subject;
 module.exports.Teacher = Teacher;

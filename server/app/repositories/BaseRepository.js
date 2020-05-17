@@ -19,6 +19,7 @@ class BaseRepository {
         if (!result) {
             throw new EError(`${this.__model.name} not found`, 404);
         }
+        return result;
     }
 
     async doesExist (condition) {
