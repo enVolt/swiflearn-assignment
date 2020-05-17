@@ -11,6 +11,15 @@ module.exports.create = async (req, res, next) => {
     }
 };
 
+module.exports.get = async (req, res, next) => {
+    try {
+        res.body = await LectureService.get()
+        next()
+    } catch (e) {
+        next(e);
+    }
+};
+
 module.exports.assigned = async (req, res, next) => {
     try {
         res.body = await LectureService.assigned(req.student)

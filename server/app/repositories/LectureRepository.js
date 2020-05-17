@@ -1,6 +1,6 @@
 "use strict";
 
-const { Lecture, StudentLecture } = require("../models");
+const { Lecture, StudentLecture, Subject, Teacher } = require("../models");
 const BaseRepository = require("./BaseRepository");
 
 class LectureRepository extends BaseRepository {
@@ -22,6 +22,10 @@ class LectureRepository extends BaseRepository {
             include: [ Lecture ],
             order: "lecture.start"
         });
+    }
+
+    async findWithDetails (condition) {
+        return await Lecture.findAll({where: condition, include: [ Subject, Teacher ]})
     }
 };
 

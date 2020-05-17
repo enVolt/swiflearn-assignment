@@ -3,6 +3,10 @@
 const lectureRepository = require("../repositories/LectureRepository");
 const studentRepository = require("../repositories/StudentRepository");
 
+module.exports.get = async () => {
+    return await lectureRepository.findWithDetails({});
+};
+
 module.exports.create = async (lecture) => {
     lecture = await lectureRepository.create(lecture);
     return "Lecture is created";

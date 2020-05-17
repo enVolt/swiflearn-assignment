@@ -28,7 +28,7 @@ class BaseRepository {
     }
 
     async find (condition) {
-        return this.__model.find({ where: condition });
+        return this.__model.findAll({ where: condition });
     }
 }
 

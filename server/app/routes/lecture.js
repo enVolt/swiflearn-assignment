@@ -8,6 +8,12 @@ const auth = require("../../helpers/auth");
 
 const LectureController = require("../controllers/LectureController");
 
+router.get(
+    "/",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    LectureController.get
+);
+
 router.post(
     "/",
     auth.authenticate(auth.USER_TYPE.ADMIN),
