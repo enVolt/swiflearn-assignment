@@ -21,6 +21,11 @@ class BaseRepository {
         }
     }
 
+    async doesExist (condition) {
+        const count = await this.__model.count({ where: condition });
+        return count === 0 ? false : true;
+    }
+
     async find (condition) {
         return this.__model.find({ where: condition });
     }
