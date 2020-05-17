@@ -5,7 +5,7 @@ const uuidv4 = require("uuid/v4");
 const bcrypt = require("bcrypt");
 
 const { jwtSecret, salt} = require("../app/config").password;
-const { Session } = require("../app/models");
+const { Session, Student } = require("../app/models");
 const { SESSION_STATUS } = require("../app/constants");
 const EError = require("./EError");
 
@@ -68,7 +68,10 @@ module.exports.authenticate = (audience) => {
             payload = jwt.verify(req.headers['x-authorization'], jwtSecret);
 
             const session = await Session.findOne({
-                token: req.headers['x-authorization']
+                where: {
+                    token: req.headers['x-authorization']
+                },
+                include: [ Student ]
             });
 
             if (!session) {

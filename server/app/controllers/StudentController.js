@@ -19,3 +19,15 @@ module.exports.login = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.me = async (req, res, next) => {
+    try {
+        res.body = {
+            email: req.student.email,
+            name: req.student.name
+        }
+        next()
+    } catch (e) {
+        next(e);
+    }
+};
