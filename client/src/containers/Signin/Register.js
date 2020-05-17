@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, DatePicker, Select, Modal } from 'antd';
 import { registerUser } from './../../actions/auth';
+import { Link, withRouter } from 'react-router';
+
 
 import './Login.scss';
 
@@ -70,7 +72,7 @@ class Register extends Component {
     );
     return (
       <div className="login-container register-container">
-        <div className="login-mask"/>
+        <div className="login-mask" />
         <Form className="login-content" layout="horizontal" onSubmit={this.handleSubmit}>
           <h2>Student Login</h2>
           <FormItem label="Name" hasFeedback>
@@ -135,7 +137,9 @@ class Register extends Component {
             <Button className="ant-col-24" type="primary" htmlType="submit">Register</Button>
           </FormItem>
           <FormItem>
-            <Button className="ant-col-24" type="primary">Login</Button>
+            <Link to="/login">
+              <Button className="ant-col-24" type="primary">Login</Button>
+            </Link>
           </FormItem>
         </Form>
       </div>
