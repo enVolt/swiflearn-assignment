@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router';
 import { getMe } from './../../actions/auth';
 
 import './App.scss';
-import { Menu, Breadcrumb, Icon } from 'antd';
+import { Menu, Breadcrumb, Icon, Button} from 'antd';
 const SubMenu = Menu.SubMenu;
 
 class App extends Component {
@@ -24,6 +24,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+  }
+
+  logout () {
+    localStorage.removeItem("auth_token");
+    location.href = "/";
   }
 
   componentWillMount() {
@@ -57,7 +62,11 @@ class App extends Component {
           </Menu>
         </aside>
         <div className="ant-layout-main">
-          <div className="ant-layout-header" />
+          <div className="ant-layout-header" >
+            <div className="float-right">
+              <Button onClick={this.logout}>Logout</Button>
+            </div>
+          </div>
           <div className="ant-layout-container">
             <div className="ant-layout-content">
               <div style={{ height: 590 }}>
