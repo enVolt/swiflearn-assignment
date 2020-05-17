@@ -27,7 +27,7 @@
     "url": "git@github.com:Justin-lu/react-redux-antd.git"
   },
   "dependencies": {
-    "antd": "^2.9.3",
+    "antd": "3.26.17",
     "dateformat": "1.0.12",
     "es6-promise": "3.2.1",
     "isomorphic-fetch": "2.2.1",

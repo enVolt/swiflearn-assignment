@@ -12,8 +12,10 @@ const ButtonGroup = Button.Group;
 
 function mapStateToProps(state) {
   const { users } = state;
+  const { auth: { isAuthenticated, user } } = state;
   return {
-    users
+    users,
+    isAuthenticated
   };
 }
 

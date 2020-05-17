@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import Login from './../Login/Login';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import './App.scss';
 import { Menu, Breadcrumb, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
@@ -25,6 +24,14 @@ class App extends Component {
   componentDidMount() {
   }
 
+  componentWillMount() {
+    let { isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      console.log("Not authenticated, redirecting to login");
+      return this.props.history.push("/login");
+    }
+  }
+
   renderAuthenticatedPage() {
     return (
       <div className="ant-layout-aside">
@@ -32,13 +39,13 @@ class App extends Component {
           <div className="ant-layout-logo"/>
           <Menu mode="inline" theme="dark"
             defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
-            <SubMenu key="sub1" title={<span><Icon type="user" />用户管理</span>}>
+            <SubMenu key="sub1" title={<span><Icon type="user" />User Management</span>}>
               <Menu.Item key="1">
                 <Link to={'/users'}>
-                  用户列表
+                  User
                 </Link>
               </Menu.Item>
-              <Menu.Item key="2">角色配置</Menu.Item>
+              <Menu.Item key="2">Role Configuration</Menu.Item>
             </SubMenu>
           </Menu>
         </aside>
@@ -46,9 +53,9 @@ class App extends Component {
           <div className="ant-layout-header" />
           <div className="ant-layout-breadcrumb">
             <Breadcrumb>
-              <Breadcrumb.Item>首页</Breadcrumb.Item>
-              <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-              <Breadcrumb.Item>用户列表</Breadcrumb.Item>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>User Management</Breadcrumb.Item>
+              <Breadcrumb.Item>User List</Breadcrumb.Item>
             </Breadcrumb>
           </div>
           <div className="ant-layout-container">
@@ -67,10 +74,11 @@ class App extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    let { isAuthenticated } = this.props;
+
     return (
       <div>
-        {isAuthenticated? this.renderAuthenticatedPage() : <Login/>}
+        {isAuthenticated? this.renderAuthenticatedPage() : <div>Loading</div>}
       </div>
     );
   }
@@ -83,4 +91,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

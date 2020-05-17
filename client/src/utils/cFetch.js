@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 require('es6-promise').polyfill();
 
-import cookie from 'js-cookie';
 import StandardError from 'standard-error';
 import { API_CONFIG } from './../config/api';
 import { message, Modal } from 'antd';
@@ -12,10 +11,10 @@ function check401(res) {
   // 登陆界面不需要做401校验
   if (res.status === 401 && !res.url.match('auth')) {
     Modal.error({
-      title: "登陆验证过期",
-      content: "您的登陆验证已过期，请重新登陆",
+      title: "Please Login Again",
+      content: "Your session is expired / invalid",
       onOk: () => {
-        cookie.remove('access_token');
+        localStorage.removeItem('auth_token');
         location.href = '/';
       }
     });
@@ -26,21 +25,15 @@ function check401(res) {
   return res;
 }
 
-function check404(res) {
-  if (res.status === 404) {
-    return Promise.reject(errorMessages(res.error.error.message));
-  }
-  return res;
-}
-
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
     return response.text().then(errorMsg => {
+      const error = JSON.parse(errorMsg);
       return new StandardError({
         statusCode: response.status,
-        msg: errorMsg
+        message: response.status < 500 ? error.error.message : "Server Error Occurred"
       });
     }).then(err => { throw err; });
   }
@@ -121,12 +114,11 @@ function cFetch(url, options) {
   opts.headers = {
     "Content-Type": "application/json",
     ...opts.headers,
-    'Authorization': cookie.get('access_token') || '',
+    'X-Authorization': localStorage.getItem('auth_token') || undefined,
   };
 
   return fetch(mergeUrl, opts)
     .then(check401)
-    .then(check404)
     .then(checkStatus)
     .then(jsonParse);
 }
@@ -135,7 +127,7 @@ function cFetch(url, options) {
 window.addEventListener("unhandledrejection", function(err) {
   const ex = err.reason;
   if(ex.constructor != null && ex.constructor == StandardError || ex.msg != null){
-    message.error(ex.msg, 2.5);
+    message.error(ex.message, 2.5);
   }
 });
 

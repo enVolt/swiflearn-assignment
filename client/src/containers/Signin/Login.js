@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 import { loginUser } from './../../actions/auth';
+import { Link, withRouter } from 'react-router';
 
 import './Login.scss';
 
@@ -95,7 +96,10 @@ class Login extends Component {
             <Button className="ant-col-24" type="primary" htmlType="submit">Login</Button>
           </FormItem>
           <FormItem>
-            <Button className="ant-col-24" type="primary">Register</Button>
+            <Link to="/register">
+              <Button className="ant-col-24" type="primary">Register</Button>
+
+            </Link>
           </FormItem>
         </Form>
       </div>
@@ -110,4 +114,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(createForm()(Login));
+export default withRouter(connect(mapStateToProps)(createForm()(Login)));

@@ -6,7 +6,8 @@ export default reducersGenerate(LOGIN, initialState.auth, {
   'LOGIN_PENDING': (state) => {
     return Object.assign({}, state, {
       isFetching: true,
-      isAuthenticated: false
+      isAuthenticated: false,
+      user: null
     });
   },
   'LOGIN_FULFILLED': (state, action) => {
@@ -20,7 +21,8 @@ export default reducersGenerate(LOGIN, initialState.auth, {
     return Object.assign({}, state, {
       isFetching: false,
       isAuthenticated: false,
-      errorMessage: action.message
+      errorMessage: action.message,
+      user: null
     });
   }
 });

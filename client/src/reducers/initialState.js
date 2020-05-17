@@ -1,10 +1,13 @@
 // 统一声明默认State
-import cookie from 'js-cookie';
-
 export default {
   auth: {
     isFetching: false,
-    isAuthenticated: cookie.get('access_token') ? true : false
+    isAuthenticated: !localStorage ? false : (localStorage.getItem('auth_token') ? true : false)
+  },
+  user: {
+    isFetching: false,
+    name: null,
+    email: null
   },
   users: {
     isFetching: false,

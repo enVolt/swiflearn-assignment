@@ -1,3 +1,11 @@
+.register-container {
+  position: static !important;
+  .login-content {
+    width: 40%;
+    margin: 100px 0;
+  }
+}
+
 .login-container {
   position: absolute;
   top: 0;
