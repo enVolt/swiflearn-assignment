@@ -14,26 +14,12 @@ Create a simple system in which a user is able to come, sign up with basic attri
 ```bash
 cd server
 npm install
-npm run setup # Prepopulate basic data
 ```
 
-Start Backend Server (default to 3030 port)
+Start Backend Server
 ```
 npm start
 ```
-
-## What functionality does it have?
-
-* Basic Student Signup/Login flow
-* Ability to create
-  * Questions
-  * Lectures
-* Ability to assign (to Students)
-  * Questions
-  * Lectures
-* Ability to fetch (for User)
-  * Unanswered Questions
-  * Assigned Lectures
 
 ## Developer Guide
 
