@@ -8,6 +8,19 @@ const auth = require("../../helpers/auth");
 
 const QuestionController = require("../controllers/QuestionController");
 
+router.get(
+    "/",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    QuestionController.get
+);
+
+
+router.get(
+    "/:id/students",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    QuestionController.getStudents
+);
+
 router.post(
     "/",
     auth.authenticate(auth.USER_TYPE.ADMIN),
@@ -26,6 +39,13 @@ router.put(
     auth.authenticate(auth.USER_TYPE.ADMIN),
     validateRequest("questionAssign"),
     QuestionController.assign
-)
+);
+
+router.put(
+    "/unassign",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    validateRequest("questionAssign"),
+    QuestionController.unassign
+);
 
 module.exports = router;

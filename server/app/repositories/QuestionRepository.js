@@ -1,6 +1,6 @@
 "use strict";
 
-const { Question, StudentQuestion } = require("../models");
+const { Question, StudentQuestion, Subject } = require("../models");
 const { QUESTION_STATUS } = require("../constants");
 const BaseRepository = require("./BaseRepository");
 
@@ -18,17 +18,43 @@ class QuestionRepository extends BaseRepository {
 
     async assignQuestion (question, student) {
         return await StudentQuestion.create({
-            question,
-            student
+            questionId: question.id,
+            studentId: student.id
+        });
+    }
+
+    async unassignQuestion (question, student) {
+        return await StudentQuestion.destroy({
+            where: {
+                studentId: student.id,
+                questionId: question.id
+            }
         });
     }
 
     async assignedQuestions (student) {
         return await StudentQuestion.findAll({
-            student,
-            isAnswered: false,
-            include: [ Question ]
+            where: {
+                studentId: student.id,
+                isAnswered: false
+            },
+            include: [ {
+                model: Question,
+                include: [ Subject ]
+            } ]
         });
+    }
+  
+    async getStudents (question) {
+        return await StudentQuestion.findAll({
+            where: {
+                questionId: question.id
+            }
+        });
+    }
+
+    async findWithDetails (condition) {
+        return await Question.findAll({where: condition, include: [ Subject ]})
     }
 };
 
