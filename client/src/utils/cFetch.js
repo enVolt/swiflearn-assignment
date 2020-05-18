@@ -12,10 +12,10 @@ function check401(res) {
   if (res.status === 401 && !res.url.match('auth')) {
     Modal.error({
       title: "Please Login Again",
-      content: "Your session is expired / invalid",
+      content: "Invalid credentials",
       onOk: () => {
         localStorage.removeItem('auth_token');
-        location.href = '/';
+        location.href = '/login';
       }
     });
 
