@@ -6,9 +6,12 @@ import user from './user';
 import me from './me';
 import lecturesCreate from './lecturesCreate';
 import lecturesGet from './lecturesGet';
+import questionsGet from './questionsGet';
 import lectureStudent from './lectureStudent';
+import questionStudent from './questionStudent';
 import students from './students';
 import upcomingLectures from './upcomingLectures';
+import unattendedQuestions from './unattendedQuestions';
 
 import reducersGenerate from './reducersGenerate';
 
@@ -27,7 +30,8 @@ const rootReducer = combineReducers({
   me,
   lecturesGet, lecturesCreate, lectureStudent,
   students,
-  upcomingLectures
+  upcomingLectures,
+  questionsGet, questionStudent, unattendedQuestions
   
 });
 

@@ -25,6 +25,7 @@ export default (
       <Route path="lectures/manage" component={ManageLectures}/>
       <Route path="lectures/manage/:lectureId" component={ManageLectures}/>
       <Route path="questions/manage" component={ManageQuestions}/>
+      <Route path="questions/manage/:questionId" component={ManageQuestions}/>
       <Route path="*" component={NotFoundPage}/>
     </Route>
   </div>

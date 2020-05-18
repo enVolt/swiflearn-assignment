@@ -114,7 +114,7 @@ function cFetch(url, options) {
   opts.headers = {
     "Content-Type": "application/json",
     ...opts.headers,
-    'X-Authorization': localStorage.getItem('auth_token') || undefined,
+    'X-Authorization': localStorage ? localStorage.getItem('auth_token') : undefined,
   };
 
   return fetch(mergeUrl, opts)

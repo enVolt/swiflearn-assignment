@@ -59,6 +59,18 @@ class App extends Component {
                 </Link>
               </Menu.Item>
             </SubMenu>
+            <SubMenu key="sub2" title={<span><Icon type="study" />Questions</span>}>
+              <Menu.Item key="1">
+                <Link to={'/questions'}>
+                  Upcoming
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to={'/questions/manage'}>
+                  Manage (Admin)
+                </Link>
+              </Menu.Item>
+            </SubMenu>
           </Menu>
         </aside>
         <div className="ant-layout-main">
