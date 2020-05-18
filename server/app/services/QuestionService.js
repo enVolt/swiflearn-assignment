@@ -3,6 +3,8 @@
 const questionRepository = require("../repositories/QuestionRepository");
 const studentRepository = require("../repositories/StudentRepository");
 
+const EError = require("../../helpers/EError");
+
 module.exports.get = async () => {
     return await questionRepository.findWithDetails({});
 };
@@ -34,6 +36,19 @@ module.exports.unassign = async (studentId, questionId) => {
     await questionRepository.unassignQuestion(question, student);
 
     return "Question is unassigned to student";
+};
+
+module.exports.answer = async (questionId, answer, student) => {
+    const question = await questionRepository.findOne(questionId)
+    const questionStudent = await questionRepository.findQuestionStudent(question, student);
+
+    if (questionStudent.isAnswered) {
+        throw new EError("Question is already answered", 400);
+    }
+
+    questionStudent.set("answer", answer);
+    await question.save();
+    return "Answer is saved";
 };
 
 module.exports.assigned = async (student) => {

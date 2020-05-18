@@ -3,6 +3,7 @@
 const { Question, StudentQuestion, Subject } = require("../models");
 const { QUESTION_STATUS } = require("../constants");
 const BaseRepository = require("./BaseRepository");
+const EError = require("../../helpers/EError");
 
 class QuestionRepository extends BaseRepository {
     constructor () {
@@ -55,6 +56,19 @@ class QuestionRepository extends BaseRepository {
 
     async findWithDetails (condition) {
         return await Question.findAll({where: condition, include: [ Subject ]})
+    }
+
+    async findQuestionStudent (question, student) {
+        const studentQuestion = await StudentQuestion.findOne({
+            where: {
+                studentId: student.id,
+                questionId: question.id
+            }
+        });
+        if (!studentQuestion) {
+            throw new EError("Question not assigned to Student", 400);
+        }
+        return studentQuestion;
     }
 };
 

@@ -42,6 +42,13 @@ router.put(
 );
 
 router.put(
+    "/:questionId/answer",
+    auth.authenticate(auth.USER_TYPE.ADMIN),
+    validateRequest("questionAnswer"),
+    QuestionController.answer
+);
+
+router.put(
     "/unassign",
     auth.authenticate(auth.USER_TYPE.ADMIN),
     validateRequest("questionAssign"),

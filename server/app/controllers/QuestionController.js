@@ -55,3 +55,12 @@ module.exports.unassign = async (req, res, next) => {
         next(e);
     }
 };
+
+module.exports.answer = async (req, res, next) => {
+    try {
+        res.body = await QuestionService.answer(req.params.questionId, req.body.answer, req.student);
+        next();
+    } catch (e) {
+        next(e);
+    }
+};

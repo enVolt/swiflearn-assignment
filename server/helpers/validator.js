@@ -36,6 +36,11 @@ const schemas = {
             studentId: Joi.number().positive().required()
         })
     },
+    questionAnswer: {
+        body: Joi.object().keys({
+            answer: Joi.string().required()
+        })
+    },
     lectureCreate: {
         body: Joi.object().keys({
             description: Joi.string().required(),
