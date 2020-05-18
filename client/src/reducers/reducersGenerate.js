@@ -22,9 +22,9 @@ export default function reducersGenerate(actionType, initialState, optionsHandle
         isFulfilled: true,
         data: action.payload.data,
         meta:   {
-          total: action.payload.meta.total,
-          perPage: action.payload.meta.per_page,
-          page: action.payload.meta.page
+          // total: action.payload.meta.total,
+          // perPage: action.payload.meta.per_page,
+          // page: action.payload.meta.page
         }
       };
     };

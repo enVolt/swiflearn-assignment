@@ -26,6 +26,9 @@ export const registerUser = (request, cbk) => {
     fallback: cbk,
     payload: cFetch("students/register", { method: "POST", body: JSON.stringify(request) }).then(response => {
       localStorage.setItem('auth_token', response.result.token);
+      location.href = "/";
+
+      return response;
     })
   };
 };
