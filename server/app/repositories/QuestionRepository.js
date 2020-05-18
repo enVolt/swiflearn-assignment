@@ -12,8 +12,10 @@ class QuestionRepository extends BaseRepository {
 
     async findActiveOne (questionId) {
         return await this.findOne({
-            id: questionId,
-            status: QUESTION_STATUS.ACTIVE
+            where: {
+                id: questionId,
+                status: QUESTION_STATUS.ACTIVE
+            }
         });
     }
 
